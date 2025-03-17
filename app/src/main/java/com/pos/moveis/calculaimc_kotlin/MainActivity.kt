@@ -1,12 +1,16 @@
 package com.pos.moveis.calculaimc_kotlin
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 import kotlin.math.pow
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         btCalcular.setOnClickListener {
             btCalcularOnClick()
+            classifyResult(tvResult)
         }
 
         btLimpar.setOnClickListener {
@@ -77,6 +82,39 @@ class MainActivity : AppCompatActivity() {
             tvResult.text = df.format(imc)
         }
     }
+
+    private fun classifyResult(result: TextView){
+        val builder = AlertDialog.Builder(this)
+
+        var msg = ""
+        val texto = result.text.toString().replace(",",".")
+
+        val valor: Double? = texto.toDoubleOrNull()
+
+        if (valor != null) {
+            if (valor < 18.5) msg = "Seu IMC está baixo, você está abaixo do peso ideal"
+            else if (valor in 18.5..24.9) msg = "Seu IMC está normal! :)"
+            else if (valor in 25.0..29.9) msg = "Você está com o IMC um pouco elevado, está com excesso de peso. Procure um médico!"
+            else if (valor > 30 && valor < 35) msg = "Você está com o IMC elevado, está obeso! Procure um médico!"
+            else msg = "Você está com o IMC extremamente elevado, está com obesidade extrema!! Procure um médico!"
+        }
+
+        builder.setMessage(msg)
+            .setPositiveButton("Saiba mais!") { dialog, id ->
+                val intent = Intent(this, Details::class.java)
+                startActivity(intent)
+            }
+            .setNegativeButton("Fechar") { dialog, id ->
+                fun onClick(dialog: DialogInterface, which: Int) {
+                    Toast.makeText(this, "Ação cancelada!", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
+            }
+
+        builder.create()
+        builder.show()
+    }
+
     companion object {
 
         fun calculaIMC(peso:Double, altura:Double, locale:String):Double{

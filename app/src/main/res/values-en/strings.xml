@@ -11,4 +11,5 @@
     <string name="limpar">Clean</string>
     <string name="error_peso">Weight field must be informed!</string>
     <string name="error_alt">Height field must be informed!</string>
+    <string name="exerOptions">Choose a exercise</string>
 </resources>

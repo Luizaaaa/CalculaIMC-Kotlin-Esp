@@ -10,4 +10,13 @@
     <string name="limpar">Limpar</string>
     <string name="error_peso">Campo peso deve ser preenchido!</string>
     <string name="error_alt">Campo altura deve ser preenchido!</string>
+
+    <string name="exerOptions">Escolha um exercício</string>
+
+    <string-array name="exercicios">
+        <item>Academia</item>
+        <item>Corrida</item>
+        <item>Spinning (Bicicleta)</item>
+        <item>Calistenia</item>
+    </string-array>
 </resources>
